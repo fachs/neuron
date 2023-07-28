@@ -16,9 +16,11 @@ class Desain extends Model
         'jenis',
         'pic_kontak',
         'pic_name',
+        'pic_bidang',
         'keterangan_slide',
         'deskripsi',
         'lampiran',
+        'hasil_desain'
     ];
 
     public function user() : BelongsTo {

@@ -14,6 +14,7 @@ class LapKeuanganOutController extends Controller
         $validator = Validator::make($request->all(), [
             'penerima' => ['required', 'string'],
             'uraian' => ['required', 'string'],
+            'bidang' => ['required', 'string'],
             'harga_satuan' => ['required', 'integer'],
             'kuantitas' => ['required', 'integer'],
             'total' => ['required', 'integer'],
@@ -25,6 +26,7 @@ class LapKeuanganOutController extends Controller
         $lapkeuanganout = LapKeuanganOut::create([
             'penerima' => $validated["penerima"],
             "uraian" => $validated["uraian"],
+            "bidang" => $validated["bidang"],
             'harga_satuan' => $validated["harga_satuan"],
             'kuantitas' => $validated["kuantitas"],
             "total" => $validated["total"],

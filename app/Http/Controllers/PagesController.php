@@ -12,7 +12,8 @@ class PagesController extends Controller
 
     public function indexAdmin()
     {
-        $prokers = DB::table('program_kerjas')->select('id','nama','progress','tanggal_pelaksanaan', 'deskripsi', 'pic_1','nama_bidang')->get();
+        $bidang = \Auth::user()->bidang;
+        $prokers = DB::table('program_kerjas')->where('nama_bidang', $bidang)->select('id','nama','progress','tanggal_pelaksanaan', 'deskripsi', 'pic_1','nama_bidang')->get();
         $bidangs = DB::table('bidangs')->select('id','nama')->get();
 
         return view('pages/index-admin')->with('prokers', $prokers)->with('bidangs', $bidangs);
@@ -20,7 +21,13 @@ class PagesController extends Controller
 
     public function keuangan()
     {
-        return view('pages/keuangan');
+        $user = \Auth::user()->bidang;
+
+        if ($user == 'Keuangan') {
+            return view('pages/keuangan-admin');
+        } else {
+            return view('pages/keuangan');
+        }
     }
 
     public function keuanganIn()
@@ -30,7 +37,8 @@ class PagesController extends Controller
 
     public function keuanganRab()
     {
-        $rab = DB::table('rabs')->select('status','total_pengajuan', 'created_at')->get();
+        
+        $rab = DB::table('rabs')->select('status','total_pengajuan', 'created_at')->paginate(10);
 
         return view('pages/keuangan-rab')->with('rab', $rab);
     }
@@ -40,49 +48,54 @@ class PagesController extends Controller
         return view('pages/keuangan-rab-keuangan');
     }
 
-    public function keuanganRabAudit()
+    public function keuanganRabAudit($id)
     {
-        return view('pages/keuangan-rab-audit');
+        $rabs = DB::table('rabs')->select('id','status','rincian','proker_id','harga','kuantitas','total', 'created_at','bidang')->paginate(10);
+
+        return view('pages/keuangan-rab-audit')->with('rabs', $rabs);
     }
 
     public function keuanganLaporanKeuangan()
     {
-        $laporanIns = DB::table('lap_keuangan_ins')->select('sumber','jumlah','tanggal')->get();
-        $laporanOuts = DB::table('lap_keuangan_outs')->select('penerima','uraian','harga_satuan', 'harga_satuan', 'kuantitas', 'total', 'tanggal')->get();
+        $prokers = DB::table('program_kerjas')->select('nama','nama_bidang')->paginate(10);
+        $bidang = \Auth::user()->bidang;
 
-        return view('pages/keuangan-laporan-keuangan')->with('laporanOuts', $laporanOuts)->with('laporanIns', $laporanIns);
+        if ($bidang == 'Keuangan') {
+
+            $laporanIns = DB::table('lap_keuangan_ins')->select('id','sumber','jumlah','tanggal')->paginate(10);
+            $laporanOuts = DB::table('lap_keuangan_outs')->select('id','penerima','uraian','harga_satuan', 'harga_satuan', 'kuantitas', 'total', 'tanggal')->paginate(10);
+
+            return view('pages/keuangan-laporan-keuangan')->with('laporanOuts', $laporanOuts)->with('laporanIns', $laporanIns)->with('prokers', $prokers);
+        } else {
+
+            $laporanIns = DB::table('lap_keuangan_ins')->where('bidang',$bidang)->select('id','sumber','jumlah','tanggal')->paginate(10);
+            $laporanOuts = DB::table('lap_keuangan_outs')->where('bidang',$bidang)->select('id','penerima','uraian','harga_satuan', 'harga_satuan', 'kuantitas', 'total', 'tanggal')->paginate(10);
+
+            return view('pages/keuangan-laporan-keuangan-admin')->with('laporanOuts', $laporanOuts)->with('laporanIns', $laporanIns);
+        }
+        
     }
 
-    public function keuanganLaporanAll()
+    public function keuanganLaporanKeuanganAudit($id)
     {
-        return view('pages/keuangan-laporan-all');
-    }
+        
+        $laporanIns = DB::table('lap_keuangan_ins')->where('bidang',$id)->select('id','sumber','jumlah','tanggal','bidang')->paginate(10);
+        $laporanOuts = DB::table('lap_keuangan_outs')->where('bidang',$id)->select('id','penerima','uraian','harga_satuan', 'harga_satuan', 'kuantitas', 'total', 'tanggal','bidang')->paginate(10);
 
-    public function keuanganLaporanKeuanganAdmin()
-    {
-        $laporanIns = DB::table('lap_keuangan_ins')->select('id','sumber','jumlah','tanggal')->paginate(10);
-        $laporanOuts = DB::table('lap_keuangan_outs')->select('id','penerima','uraian','harga_satuan', 'harga_satuan', 'kuantitas', 'total', 'tanggal')->paginate(10);
-
-        return view('pages/keuangan-laporan-keuangan-admin')->with('laporanOuts', $laporanOuts)->with('laporanIns', $laporanIns);
+        return view('pages/keuangan-laporan-keuangan-audit')->with('laporanOuts', $laporanOuts)->with('laporanIns', $laporanIns);
+ 
     }
 
     public function keuanganSptbh()
     {
-        $sptb = DB::table('sptbs')->select('himpunan','nominal_iuk','jumlah_mhs', 'pic', 'pic_nim', 'pic_wa', 'lampiran_sptb', 'lampiran_nList')->get();
+        $sptbs = DB::table('sptbs')->select('himpunan','nominal_iuk','jumlah_mhs', 'pic', 'pic_nim', 'pic_wa', 'lampiran_sptb', 'lampiran_nList')->get();
 
-        return view('pages/keuangan-sptbh')->with('sptb', $sptb);
+        return view('pages/keuangan-sptbh')->with('sptbs', $sptbs);
     }
 
     public function persuratan()
     {
         return view('pages/persuratan');
-    }
-
-    public function persuratanTtdAdmin()
-    {
-        $req_ttd = DB::table('req_ttds')->select('id','status','pic_name','pic_kontak','file_surat', 'file_ttd', 'created_at')->paginate(10);
-
-        return view('pages/persuratan-ttd-admin')->with('req_ttd', $req_ttd);
     }
 
     public function publikasi()
@@ -92,35 +105,35 @@ class PagesController extends Controller
 
     public function publikasiPengajuan()
     {
-        $publikasi = DB::table('publikasis')->select('judul','pic_name','status','jenis', 'pic_kontak', 'created_at')->get();
+        $publikasi = DB::table('publikasis')->select('judul','pic_name','status','jenis', 'pic_kontak', 'created_at')->paginate(10);
 
         return view('pages/publikasi-pengajuan')->with('publikasi', $publikasi);
     }
 
     public function publikasiPengajuanBuat()
     {
-        $publikasi = DB::table('publikasis')->select('judul','status','jenis', 'pic_kontak', 'created_at')->get();
+        $publikasi = DB::table('publikasis')->select('judul','status','jenis', 'pic_kontak', 'created_at')->paginate(10);
 
         return view('pages/publikasi-pengajuan-buat')->with('publikasi', $publikasi);
     }
 
     public function publikasiPengajuanAdmin()
     {
-        $publikasi = DB::table('publikasis')->select('judul','status','jenis', 'pic_kontak', 'created_at')->get();
+        $publikasi = DB::table('publikasis')->select('judul','status','jenis', 'pic_kontak', 'created_at')->paginate(10);
 
         return view('pages/publikasi-pengajuan-admin')->with('publikasi', $publikasi);
     }
 
     public function publikasiDesain()
     {
-        $desain = DB::table('desains')->select('judul','status','jenis', 'pic_kontak', 'created_at')->get();
+        $desain = DB::table('desains')->select('judul','status','jenis', 'pic_kontak', 'created_at')->paginate(10);
 
         return view('pages/publikasi-desain')->with('desain', $desain);
     }
 
     public function publikasiDesainAdmin()
     {
-        $desain = DB::table('desains')->select('judul','status','jenis', 'pic_kontak', 'created_at')->get();
+        $desain = DB::table('desains')->select('judul','status','jenis', 'pic_kontak', 'created_at')->paginate(10);
 
         return view('pages/publikasi-desain-admin')->with('desain', $desain);
     }

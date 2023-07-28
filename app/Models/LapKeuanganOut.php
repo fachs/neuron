@@ -12,6 +12,7 @@ class LapKeuanganOut extends Model
 
     protected $fillable = [
         'penerima',
+        'bidang',
         'uraian',
         'harga_satuan',
         'kuantitas',

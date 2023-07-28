@@ -53,7 +53,6 @@ class AuthController extends Controller
             'name' => ['required', 'string'],
             'bidang' => ['required', 'string'],
             'role' => ['required', 'string'],
-            'no_whatsapp' => ['required', 'string'],
             'email' => ['required', 'email','unique:users'],
             'password' => ['required',"confirmed", Password::min(7)],
         ]);
@@ -64,7 +63,6 @@ class AuthController extends Controller
             'name' => $validated["name"],
             'bidang' => $validated['bidang'],
             "email" => $validated["email"],
-            "no_whatsapp" => $validated["no_whatsapp"],
             "password" => Hash::make($validated["password"]),
             'role' => $validated["role"],
         ]);

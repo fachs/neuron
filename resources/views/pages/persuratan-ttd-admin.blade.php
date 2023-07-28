@@ -70,10 +70,29 @@
 									<input type="hidden" name="pic_kontak" value="-">
 								@endif
 								<input type="hidden" name="pic_name" value="{{ auth()->user()->name }}">
+								<input type="hidden" name="bidang" value="{{ auth()->user()->bidang }}">
 								<input type="hidden" name="file_ttd" value="-">
 							</div>
+							<label class="flex mb-3">
+								<span class="mr-2 mt-2">Penanda Tangan:</span>
+								<input
+								name="nama_ttd"
+								  class="form-input mt-1.5 w-1/2 rounded-lg border border-slate-300 bg-transparent px-3 py-2 placeholder:text-slate-400/70 hover:border-slate-400 focus:border-primary dark:border-navy-450 dark:hover:border-navy-400 dark:focus:border-accent"
+								  placeholder="Nama Penanda Tangan"
+								  type="text"
+								/>
+							  </label>
+							  <label class="flex mb-3">
+								<span class="mr-2 mt-2">Jabatan Penanda Tangan:</span>
+								<input
+								name="jabatan_ttd"
+								  class="form-input mt-1.5 w-1/2 rounded-lg border border-slate-300 bg-transparent px-3 py-2 placeholder:text-slate-400/70 hover:border-slate-400 focus:border-primary dark:border-navy-450 dark:hover:border-navy-400 dark:focus:border-accent"
+								  placeholder="Jabatan Penanda Tangan"
+								  type="text"
+								/>
+							  </label>
 						  </div>
-				
+						  
 						  <div class="space-x-3">
 							<button
 							  @click="showModal = false"
@@ -98,7 +117,7 @@
 			<!-- Collapsible  Table -->
 				<div class="flex items-center justify-between"></div>
 				<div class="card mt-3">
-					<div class="is-scrollbar-hidden min-w-full overflow-x-auto" x-data="pages.tables.initExample1">
+					<div class="is-scrollbar-hidden min-w-full overflow-x-auto">
 						<table class="is-hoverable w-full text-left">
 							<thead>
 								<tr>

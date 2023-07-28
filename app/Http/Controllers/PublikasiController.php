@@ -12,9 +12,16 @@ class PublikasiController extends Controller
 {
     public function show()
     {
-        $publikasis = DB::table('publikasis')->select('id','judul','jenis','pic_name','status', 'created_at')->paginate(10);
+        $bidang = \Auth::user()->bidang;
 
-        return view('pages/publikasi-pengajuan-admin')->with('publikasis', $publikasis);
+        if ($bidang == 'Kominfo') {
+            $publikasis = DB::table('publikasis')->select('id','judul','jenis','pic_name','status','pic_kontak', 'created_at','lampiran','tanggal_publikasi','pic_bidang','hasil_publikasi')->paginate(10);
+            return view('pages/publikasi-pengajuan')->with('publikasis', $publikasis);
+        } else {
+            $publikasis = DB::table('publikasis')->where('pic_bidang', $bidang)->select('id','judul','jenis','pic_name','status','pic_kontak', 'created_at','lampiran','tanggal_publikasi','pic_bidang','hasil_publikasi')->paginate(10);
+            return view('pages/publikasi-pengajuan-admin')->with('publikasis', $publikasis);
+        }
+
     }
 
     public function create()
@@ -32,8 +39,11 @@ class PublikasiController extends Controller
             'jenis' => 'required',
             'pic_kontak' => 'required',
             'pic_name' => 'required',
+            'pic_bidang' => 'required',
+            'tanggal_publikasi' => 'required',
             'keterangan_slide' => 'nullable',
             'deskripsi' => 'nullable',
+            'hasil_publikasi' => 'nullable',
         ]);
 
         $lampiran = $request->file('lampiran');
@@ -51,13 +61,24 @@ class PublikasiController extends Controller
         $req_publikasi->pic_name = $request->input('pic_name');
         $req_publikasi->keterangan_slide = $request->input('keterangan_slide');
         $req_publikasi->deskripsi = $request->input('deskripsi');
+        $req_publikasi->hasil_publikasi = $request->input('hasil_publikasi');
+        $req_publikasi->tanggal_publikasi = $request->input('tanggal_publikasi');
+        $req_publikasi->pic_bidang = $request->input('pic_bidang');
 
         $req_publikasi->save();
 
         Alert::success('Berhasil', 'Permintaan publikasi berhasil diajukan!');
 
-        $publikasis = DB::table('publikasis')->select('id','judul','jenis','pic_name','status', 'created_at')->paginate(10);
+       return back();
+    }
 
-        return view('pages/publikasi-pengajuan-admin')->with('publikasis', $publikasis);
+    public function update(Request $request) {
+        
+        $publikasi = Publikasi::findOrFail($request->id);
+        $publikasi->update($request->all());
+
+        Alert::success('Berhasil', 'Tautan publikasi berhasil dikirim!');
+
+        return back();
     }
 }

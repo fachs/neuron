@@ -66,6 +66,7 @@
 							<input type="hidden" name="status" value="Proses">
 							<input type="hidden" name="pic_kontak" value="{{ auth()->user()->no_whatsapp }}">
 							<input type="hidden" name="pic_name" value="{{ auth()->user()->name }}">
+							<input type="hidden" name="bidang" value="{{ auth()->user()->bidang }}">
 							<input type="hidden" name="hasil_no_surat" value="-">
 						</div>
 					  </div>
@@ -108,7 +109,7 @@
 							<tbody>
 								@foreach($req_surats as $key=>$item)
 									<tr class="border-y border-transparent border-b-slate-200">
-										<td class="whitespace-nowrap px-4 py-3 sm:px-5"> <?php echo(mb_strimwidth( $item->file_surat , 0, 35, "...")); ?></td>
+										<td class="whitespace-nowrap px-4 py-3 sm:px-5"> <?php echo(mb_strimwidth( $item->file_surat , 0, 35, "....pdf")); ?></td>
 										<td class="whitespace-nowrap px-4 py-3 sm:px-5">   
 											@if ($item->status === 'Selesai')
 												<span class="tag rounded-full border border-success/30 bg-success/10 text-success hover:bg-success/20 focus:bg-success/20 active:bg-success/25">
@@ -119,9 +120,7 @@
 											@endif
 										</td>
 										<td class="whitespace-nowrap px-3 py-3 font-medium text-slate-700 lg:px-5">{{ $item->created_at }}</td>
-										<td class="flex whitespace-nowrap px-4 py-3 sm:px-5"> <span class="pr-3"> {{ $item->hasil_no_surat }} </span> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" />
-                    </svg>
+										<td class="flex whitespace-nowrap px-4 py-3 sm:px-5"> <span class="pr-3"> {{ $item->hasil_no_surat }} </span> 
                     </td>
 									</tr>
 								@endforeach

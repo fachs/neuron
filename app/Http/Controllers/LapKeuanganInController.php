@@ -9,10 +9,12 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class LapKeuanganInController extends Controller
 {
+
     public function store(Request $request) {
         $validator = Validator::make($request->all(), [
             'sumber' => ['required', 'string'],
             'jumlah' => ['required', 'integer'],
+            'bidang' => ['required', 'string'],
             'tanggal' => ['required', 'string'],
         ]);
 
@@ -22,6 +24,7 @@ class LapKeuanganInController extends Controller
             'sumber' => $validated["sumber"],
             "jumlah" => $validated["jumlah"],
             'tanggal' => $validated["tanggal"],
+            "bidang" => $validated["bidang"],
         ]);
         
         Alert::success('Berhasil', 'Pemasukan berhasil dicatat!');

@@ -20,9 +20,12 @@ return new class extends Migration
             $table->string('jenis', 10);
             $table->string('pic_kontak', 25);
             $table->string('pic_name');
+            $table->string('pic_bidang');
             $table->string('keterangan_slide');
             $table->string('deskripsi');
             $table->string('lampiran');
+            $table->string('tanggal_publikasi');
+            $table->string('hasil_publikasi');
             $table->timestamps();
         });
     }

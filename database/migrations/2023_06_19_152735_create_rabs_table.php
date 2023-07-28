@@ -18,9 +18,11 @@ return new class extends Migration
             $table->string('status', 10);
             $table->string('rincian');
             $table->integer('proker_id');
+            $table->string('bidang', 25);
             $table->integer('harga');
             $table->integer('kuantitas');
             $table->integer('total');
+            // $table->string('pic_bidang');
             $table->timestamps();
         });
     }

@@ -15,6 +15,9 @@ class ReqTtd extends Model
         'file_surat',
         'file_ttd',
         'pic_kontak',
+        'nama_ttd',
+        'jabatan_ttd',
+        'bidang',
         'pic_name',
     ];
 

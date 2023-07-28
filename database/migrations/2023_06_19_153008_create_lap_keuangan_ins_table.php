@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('lap_keuangan_ins', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('bidang', 25);
             $table->string('sumber');
             $table->integer('jumlah');
             $table->date('tanggal');

@@ -103,7 +103,9 @@
                 </div>
                 <div class="px-4 py-4 sm:px-5">
                   <form action="{{ route('rab.store') }}" method="post"> @method('POST') @csrf
+                    
                   <div class="mt-4 space-y-4">
+                    
                     <label class="block">
                       <span>Program Kerja</span>
                       <select
@@ -131,7 +133,9 @@
                             >
                               <span class="-mt-1">Rp </span>
                             </span>
-                            <input
+                            
+                            <input 
+                           
                               name="harga"
                               class="form-input w-full rounded-r-lg border border-slate-300 bg-transparent px-3 py-2 placeholder:text-slate-400/70 hover:z-10 hover:border-slate-400 focus:z-10 focus:border-primary"
                               type="text"
@@ -140,13 +144,14 @@
                       </label>
                       <label class="block">
                         <span>Kuantitas</span>
-                        <input name="kuantitas" class="form-input mt-1.5 w-21 rounded-lg border border-slate-300 bg-transparent px-3 py-2 placeholder:text-slate-400/70 hover:border-slate-400 focus:border-primary" type="text" name="kuantitas" />
+                        <input name="kuantitas" class="form-input mt-1.5 w-21 rounded-lg border border-slate-300 bg-transparent px-3 py-2 placeholder:text-slate-400/70 hover:border-slate-400 focus:border-primary" type="text" />
                       </label>
                     </label>
                     <label class="block">
-                      <span>Total</span>
-                      <input name="total" value="9999" class="text-base font-semibold" />
+                      <span id="result"></span>
+                      <input type="hidden" name="total" value="result" class="text-base font-semibold" />
                       <input type="hidden" name="status" value="Proses" />
+                      <input type="hidden" name="bidang" value="-">
                     </label>
 
                     <div class="space-x-2 text-right">
@@ -154,13 +159,13 @@
                         @click="showModal = false"
                         class="btn min-w-[7rem] rounded-full border border-slate-300 font-medium text-slate-800 hover:bg-slate-150 focus:bg-slate-150 active:bg-slate-150/80"
                       >
-                        Cancel
+                        Batal
                       </button>
                       <button
                         @click="showModal = false"
                         class="btn min-w-[7rem] rounded-full bg-primary font-medium text-white hover:bg-primary-focus focus:bg-primary-focus active:bg-primary-focus/90"
                       >
-                        Apply
+                        Simpan
                       </button>
                     </div>
                   </div>
@@ -194,6 +199,11 @@
                       Status Pengajuan
                     </th>
                     <th
+                    class="whitespace-nowrap bg-slate-200 px-4 py-3 font-semibold uppercase text-slate-800 lg:px-5"
+                  >
+                    Total Pengajuan
+                  </th>
+                    <th
                       class="whitespace-nowrap rounded-tr-lg bg-slate-200 px-4 py-3 font-semibold uppercase text-slate-800 lg:px-5"
                     >
                       Detail
@@ -208,6 +218,7 @@
                       <td class="whitespace-nowrap px-4 py-3 sm:px-5">
                         <?php 
                           $counter = 0;
+                          $sum = 0;
                           foreach ($rabs as $rab) {
                             if ($rab->proker_id === $proker->id && $counter === 0) {
                               if ($rab->status === 'Selesai') {
@@ -217,10 +228,13 @@
                               }
                               $counter++;
                             } 
+                            if ($rab->proker_id === $proker->id) {
+                              $sum = $sum + $rab->total;
+                            } 
                           }
                         ?>
                       </td>
-                      
+                      <td class="whitespace-nowrap px-4 py-3 sm:px-5">{{ $sum }}</td>
                       <td class="whitespace-nowrap px-4 py-3 sm:px-5">
                         <button
                           @click="expanded = !expanded"

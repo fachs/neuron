@@ -11,9 +11,10 @@ class KepanitiaanController extends Controller
 {
     public function show($id) {
 
-        // ProgramKerja::findOrFail($request->id)
+        $bidang = \Auth::user()->bidang;
+
         $prokers = DB::table('program_kerjas')->where('id',$id)->select('id','nama')->get();
-        $kepanitiaans = DB::table('kepanitiaans')->select('id','nama_proker','divisi','pelaksanaan','jobdesc')->get();
+        $kepanitiaans = DB::table('kepanitiaans')->where('bidang',$bidang)->select('id','nama_proker','divisi','pelaksanaan','jobdesc')->get();
         $panitias = DB::table('panitias')->select('id','nama','nim','no_whatsapp', 'prodi', 'alasan','kepanitiaan_id')->paginate(10);
 
         return view('pages/kepanitiaan')->with('kepanitiaans', $kepanitiaans)->with('panitias', $panitias)->with('prokers', $prokers);
@@ -23,6 +24,7 @@ class KepanitiaanController extends Controller
         $validator = Validator::make($request->all(), [
             'proker_id' => ['required', 'integer'],
             'nama_proker' => ['required', 'string'],
+            'bidang' => ['required', 'string'],
             'divisi' => ['required', 'string'],
             'pelaksanaan' => ['required','string'],
             'jobdesc' => ['required', 'string'],
@@ -34,6 +36,7 @@ class KepanitiaanController extends Controller
             'proker_id' => $validated["proker_id"],
             'nama_proker' => $validated["nama_proker"],
             "divisi" => $validated["divisi"],
+            "bidang" => $validated["bidang"],
             'pelaksanaan' => $validated["pelaksanaan"],
             "jobdesc" => $validated["jobdesc"],
         ]);

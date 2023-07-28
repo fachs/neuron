@@ -33,6 +33,7 @@
 								<form action="{{ route('proker.store') }}" method="post"> @method('POST') @csrf <div class="mt-4 space-y-4">
 										<label class="flex gap-2">
 											<div class="block">
+												
 												<span>Nama Program Kerja</span>
 												<input class="form-input mt-1.5 w-full rounded-lg border border-slate-300 bg-transparent px-3 py-2 placeholder:text-slate-400/70 hover:border-slate-400 focus:border-primary" type="text" name="nama" value="{{ old('nama') }}" />
 											</div>

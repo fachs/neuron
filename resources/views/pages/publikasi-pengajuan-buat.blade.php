@@ -1,9 +1,9 @@
-<x-app-layout title="Buat Pengajuan Publikasi" is-header-blur="true">
+<x-app-layout title="Buat Permintaan Publikasi" is-header-blur="true">
     <!-- Main Content Wrapper -->
     <main class="main-content w-full px-[var(--margin-x)] pb-8">
         <div class="flex items-center space-x-4 py-5 lg:py-6">
             <h2 class="text-xl font-medium text-slate-800 lg:text-2xl">
-                Buat Pengajuan Publikasi
+                Buat Permintaan Publikasi
             </h2>
             <div class="hidden h-full py-1 sm:flex">
                 <div class="h-full w-px bg-slate-300"></div>
@@ -25,7 +25,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                     </svg>
                 </li>
-                <li>Buat Pengajuan Publikasi</li>
+                <li>Buat Permintaan Publikasi</li>
             </ul>
         </div>
 
@@ -44,8 +44,8 @@
                             <label class="block">
                                 <span>Jenis</span>
                                 <select name="jenis" class="mt-1.5 w-full" x-init="$el._x_tom = new Tom($el, { create: true, sortField: { field: 'text', direction: 'asc' } })">
-                                    <option value="grafis">Instagram Feed</option>
-                                    <option value="video">Instagram Story</option>
+                                    <option value="Feed">Instagram Feed</option>
+                                    <option value="Story">Instagram Story</option>
                                 </select>
                             </label>
                             <label class="block col-span-1">
@@ -65,6 +65,8 @@
                                     </div>
                                     <input type="hidden" name="pic_name" value="{{ auth()->user()->name }}" />
                                     <input type="hidden" name="status" value="Proses" />
+                                    <input type="hidden" name="hasil_publikasi" value="-" />
+                                    <input type="hidden" name="pic_bidang" value="{{ auth()->user()->bidang }}" />
                                 </div>
                             </label>
                         </div>
@@ -79,7 +81,33 @@
                             </label>
                         </div>
                         <div class="grid grid-cols-2 gap-4 sm:grid-cols-2">
-                            
+                            <label class="relative flex">
+                                <input
+                                  x-init="$el._x_flatpickr = flatpickr($el)"
+                                  class="form-input peer w-full rounded-lg border border-slate-300 bg-transparent px-3 py-2 pl-9 placeholder:text-slate-400/70 hover:border-slate-400 focus:border-primary dark:border-navy-450 dark:hover:border-navy-400 dark:focus:border-accent"
+                                  placeholder="Pilih tanggal publikasi"
+                                  type="text"
+                                  name="tanggal_publikasi"
+                                />
+                                <span
+                                  class="pointer-events-none absolute flex h-full w-10 items-center justify-center text-slate-400 peer-focus:text-primary dark:text-navy-300 dark:peer-focus:text-accent"
+                                >
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="h-5 w-5 transition-colors duration-200"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    stroke-width="1.5"
+                                  >
+                                    <path
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                    />
+                                  </svg>
+                                </span>
+                              </label>
                         </div>
                         <div>
                             <span>Lampiran</span>

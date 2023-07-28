@@ -13,6 +13,7 @@ class Rab extends Model
     protected $fillable = [
         'status',
         'rincian',
+        'bidang',
         'proker_id',
         'harga',
         'kuantitas',

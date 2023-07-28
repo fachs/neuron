@@ -7,5 +7,7 @@ use Illuminate\Http\Request;
 
 class SptbController extends Controller
 {
-    //
+    public function show(Request $request) {
+        
+    }
 }

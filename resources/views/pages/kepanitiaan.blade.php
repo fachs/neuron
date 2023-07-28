@@ -35,6 +35,7 @@
 								<form action="{{ route('kepanitiaan.store') }}" method="post"> @method('POST') @csrf 
 									@foreach($prokers as $proker)  
 									<div class="mt-4 space-y-4">
+										<input type="hidden" name="bidang" value="{{ auth()->user()->bidang }}">
 										<label class="block">
 											<span>Proker</span>
 											<input disabled class="form-input w-full rounded-lg border border-slate-300 bg-transparent px-3 py-2 placeholder:text-slate-400/70 hover:border-slate-400 focus:border-primary disabled:pointer-events-none disabled:select-none disabled:border-none disabled:bg-zinc-100 dark:border-navy-450 dark:hover:border-navy-400 dark:focus:border-accent dark:disabled:bg-navy-600" type="text" value="{{ $proker->nama }}" />

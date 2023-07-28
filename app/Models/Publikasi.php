@@ -16,9 +16,12 @@ class Publikasi extends Model
         'jenis',
         'pic_kontak',
         'pic_name',
+        'pic_bidang',
         'keterangan_slide',
         'deskripsi',
+        'tanggal_publikasi',
         'lampiran',
+        'hasil_publikasi',
     ];
 
     public function user() : BelongsTo {

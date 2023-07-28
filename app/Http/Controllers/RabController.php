@@ -10,10 +10,21 @@ use RealRashid\SweetAlert\Facades\Alert;
 class RabController extends Controller
 {
     public function show() {
-        $rabs = DB::table('rabs')->select('id','status','rincian','proker_id','harga','kuantitas','total', 'created_at')->paginate(10);
+    
+        //query khusus bidang
         $prokers = DB::table('program_kerjas')->select('id','nama')->get();
+        $bidang = \Auth::user()->bidang;
 
-        return view('pages/keuangan-rab-admin')->with('rabs', $rabs)->with('prokers', $prokers);
+        if ($bidang == 'Keuangan') {
+            $rabs = DB::table('rabs')->select('id','status','rincian','proker_id','harga','kuantitas','total', 'created_at','bidang')->paginate(10);
+
+            return view('pages/keuangan-rab-keuangan')->with('rabs', $rabs)->with('prokers', $prokers);
+        } else {
+            $rabs = DB::table('rabs')->where('bidang',$bidang)->select('id','status','rincian','proker_id','harga','kuantitas','total', 'created_at','bidang')->paginate(10);
+
+            return view('pages/keuangan-rab-admin')->with('rabs', $rabs)->with('prokers', $prokers);
+        }
+
     }
 
     public function store(Request $request) {
@@ -23,6 +34,7 @@ class RabController extends Controller
             'proker_id' => ['required', 'integer'],
             'harga' => ['required', 'integer'],
             'kuantitas' => ['required', 'integer'],
+            'bidang' => ['required', 'string'],
             'total' => ['required', 'integer'],
         ]);
 
@@ -33,6 +45,7 @@ class RabController extends Controller
             'rincian' => $validated["rincian"],
             "proker_id" => $validated["proker_id"],
             "harga" => $validated["harga"],
+            "bidang" => $validated["bidang"],
             "kuantitas" => $validated["kuantitas"],
             "total" => $validated["total"],
         ]);

@@ -32,7 +32,6 @@ class ProgramKerjaController extends Controller
         ]);
 
         Alert::success('Berhasil', 'Program kerja berhasil ditambahkan!');
-        Alert::error('Gagal', 'Program kerja gagal ditambahkan!');
 
         return back();
     }
@@ -43,7 +42,6 @@ class ProgramKerjaController extends Controller
         $updateProker->update($request->all());
 
         Alert::success('Berhasil', 'Perubahan berhasil disimpan!');
-        Alert::error('Gagal', 'Perubahan gagal disimpan!');
 
         return back();
     }

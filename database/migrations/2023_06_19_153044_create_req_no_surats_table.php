@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('pic_name');
             $table->string('pic_kontak');
             $table->string('file_surat');
+            $table->string('bidang', 25);
             $table->string('hasil_no_surat');
             $table->timestamps();
         });

@@ -13,6 +13,7 @@ class Kepanitiaan extends Model
     protected $fillable = [
         'proker_id',
         'nama_proker',
+        'bidang',
         'divisi',
         'pelaksanaan',
         'jobdesc',

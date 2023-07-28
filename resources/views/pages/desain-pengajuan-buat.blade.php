@@ -56,6 +56,8 @@
 								</div>
 								<input type="hidden" name="pic_name" value="{{ auth()->user()->name }}" />
                                 <input type="hidden" name="status" value="Proses" />
+                                <input type="hidden" name="hasil_desain" value="-" />
+                                <input type="hidden" name="pic_bidang" value="{{ auth()->user()->bidang }}" />
 							</div>
 						</label>
 					</div>

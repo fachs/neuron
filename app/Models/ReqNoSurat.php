@@ -15,6 +15,7 @@ class ReqNoSurat extends Model
         'file_surat',
         'hasil_no_surat',
         'pic_kontak',
+        'bidang',
         'pic_name',
     ];
 

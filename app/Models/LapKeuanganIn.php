@@ -14,6 +14,7 @@ class LapKeuanganIn extends Model
         'sumber',
         'jumlah',
         'tanggal',
+        'bidang',
     ];
 
     public function bidang() : BelongsTo {

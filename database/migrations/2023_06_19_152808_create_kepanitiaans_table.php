@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('kepanitiaans', function (Blueprint $table) {
             $table->increments('id');
             $table->string('divisi', 25);
+            $table->string('bidang', 25);
             $table->integer('proker_id');
             $table->string('pelaksanaan', 10);
             $table->text('jobdesc');
